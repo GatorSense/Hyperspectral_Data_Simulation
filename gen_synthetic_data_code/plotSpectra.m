@@ -15,5 +15,6 @@ ylabel('Reflectance');
 xlabel('Wavelength (\mum)');
 xticklabels({'.4','.6','.8','1','1.2','1.4','1.6', '1.8', '2', '2.2', '2.4'});
 legend({'Red Slate','Verde Antique', 'Phyllite', 'Pyroxenite'});
+title('True Spectra');
 
 end
