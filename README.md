@@ -1,6 +1,6 @@
 # Hyperspectral_Data_Simulation
 
-Multiple instance learning bag generation code for the ASTER 2.0 hyperspectral library data. This code was written by Changzhe Jiao and Alina Zare and originally existed in the (FUMI repository)[https://github.com/GatorSense/FUMI]. It has been made it's own repository by James Bocinsky and Daniel Shats.
+Multiple instance learning bag generation code for the ASTER 2.0 hyperspectral library data. This code was written by Changzhe Jiao and Alina Zare and originally existed in the [FUMI repository](https://github.com/GatorSense/FUMI). It has been made it's own repository by James Bocinsky and Daniel Shats.
 
 
 If you use this code, cite it: James Bocinsky, Daniel Shats, & Alina Zare. (2019, April 29). GatorSense/Hyperspectral_Data_Simulation v1.0 (Version v1.0). Zenodo. http://doi.org/10.5281/zenodo.2653922 [![DOI](https://zenodo.org/badge/179329388.svg)](https://zenodo.org/badge/latestdoi/179329388)
