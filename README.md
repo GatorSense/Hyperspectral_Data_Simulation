@@ -8,7 +8,7 @@ If you use this code, cite it: James Bocinsky, Daniel Shats, & Alina Zare. (2019
 ************
 
 ### Demo  
-demo_generate_synthetic_data.m                                      -  generates synthetic data 
+demo_generate_synthetic_data.m                                      -  generates synthetic data   
 demo_generate_synthetic_data_twotargets.m                           -  generates synthetic data that includes two targets
 ************
 
@@ -16,10 +16,10 @@ demo_generate_synthetic_data_twotargets.m                           -  generates
 
 gen_synthetic_data_code: //code to generate data
 * add_noise_to_dB.m                                                   -  adds Gaussian white noise to synthetic data  
-drchrnd.m                                                           -  generates random vector following Dirichlet distribution  
+* drchrnd.m                                                           -  generates random vector following Dirichlet distribution 
+* gen_2tar_data.m                                                    - generates synthetic data for two targets
 * gen_individual_LMM_point.m                                          -  generates individual synthetic data point following the linear mixing model  
 * gen_multi_tar_mixed_data.m                                          -  generates synthetic data set following the definition of multiple instance learning problem  
-* gen_2tar_data.m                                                    - generates synthetic data for two targets
 * plotSpectra.m                                                      - function that plots spectra/endmembers used as targets
 * setParameters.m                                                    - function that sets parameters for generating synthetic data
 ************
@@ -32,9 +32,9 @@ synthetic_data: //raw data files and pregenerated data files
 * noisy_data_SNR_10.mat                                               -  noisy synthetic data with SNR=10 dB; bag-level and instance-level labels  
 * noisy_data_SNR_20.mat                                               -  noisy synthetic data with SNR=20 dB; bag-level and instance-level labels  
 * noisy_data_SNR_30.mat                                               -  noisy synthetic data with SNR=30 dB; bag-level and instance-level labels  
-* noisy_data_SNR_40.mat                                               -  noisy synthetic data with SNR=40 dB; bag-level and instance-level labels  
-* random_data.mat                                                     -  random synthetic data; bag-level and instance-level labels  
+* noisy_data_SNR_40.mat                                               -  noisy synthetic data with SNR=40 dB; bag-level and instance-level labels   
 * originalData.mat                                                    - table that contains sample names, wavelength, and original reflectance values from the ECOSTRESS Spectral Library.
+* random_data.mat                                                     -  random synthetic data; bag-level and instance-level labels 
 * wavelengths.mat                                                     - array of wavelengths associated with spectra
 
 ****************************************************************
