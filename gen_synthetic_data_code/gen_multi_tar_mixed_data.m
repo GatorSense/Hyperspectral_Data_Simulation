@@ -1,25 +1,17 @@
-function [X,P,labels_bag,labels_point,bag_number]=gen_multi_tar_mixed_data(E_t,E_minus,num_pbags,num_nbags,num_points,n_tar,N_b,Pt_mean,sigma,expect_SdB)
+function [X,P,labels_bag,labels_point,bag_number] = gen_multi_tar_mixed_data(E_truth,parameters)
 
 %This function generates synthetic data set following the definition of multiple instance learning problem
 
 % REFERENCE :
 % C. Jiao, A. Zare, 
-% Functions of Multiple Instances for Learning Target Signatures,? 
+% Functions of Multiple Instances for Learning Target Signatures,
 % IEEE transactions on Geoscience and Remote Sensing, Vol. 53, No. 8, Aug. 2015, DOI: 10.1109/TGRS.2015.2406334
 %
 % SYNTAX : [X,P,labels_bag,labels_point]=gen_multi_tar_mixed_data(E_t,E_minus,num_pbags,num_nbags,num_points,n_tar,N_b,Pt_mean,sigma,expect_SdB)
 
 %Inputs:
-%   E_T -target endemmber set
-%   E_minus - background endmember set
-%   num_pbags - number of positive bags
-%   num_n_bags - number of negative bags
-%   num_points - number of total points per bag
-%   n_tar - number of target points per positive bag
-%   N_b - minimal number of constituent background endmembers per point
-%   Pt_mean - mean target proportion value 
-%   sigma - proportion variance
-%   expect_SdB - desired SNR
+%   E_Truth - array containing all spectra/endmembers [n_dim, n_samps]
+%   parameters - structure containing parameters to generate synthetic data
 
 %Outputs:
 %   X - dataset in column vectors
@@ -65,58 +57,64 @@ function [X,P,labels_bag,labels_point,bag_number]=gen_multi_tar_mixed_data(E_t,E
 % OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 % SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+% Setting up parameters for synthetic data
+num_pbags = parameters.num_pbags;
+num_nbags = parameters.num_nbags;
+num_points = parameters.num_points;
+n_tar = parameters.n_tar;
+E_t = E_truth(:, parameters.E_target);
+E_minus = E_truth(:, parameters.E_minus);
 
-X=[];
-P=[];
-labels_bag=[];
-labels_point=[];
+% Setting up parameters for outputs
+X = [];
+P = [];
+labels_bag = [];
+labels_point = [];
 bag_number = [];
 
-%loop in positive bags
-
+% loop in positive bags
 for i=1:num_pbags
     
     % generate true positive points
     for j=1:n_tar
-        temp_bag_label=1;
-        temp_point_label=1;
-        labels_bag(i,j)=temp_bag_label;
-        labels_point(i,j)=temp_point_label;
-        [x,p]=gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,N_b,Pt_mean,sigma,expect_SdB);
-        X(:,(i-1)*num_points+j)=x;
-        P(:,(i-1)*num_points+j)=p;
+        temp_bag_label                 = 1;
+        temp_point_label               = 1;
+        labels_bag(i,j)                = temp_bag_label;
+        labels_point(i,j)              = temp_point_label;
+        [x,p] = gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,parameters);
+        X(:,(i-1)*num_points+j)        = x;
+        P(:,(i-1)*num_points+j)        = p;
         bag_number((i-1)*num_points+j) = i;
     end
     
     % generate false positive points
     for j=n_tar+1:num_points
-        temp_bag_label=1;
-        temp_point_label=0;
-        labels_bag(i,j)=temp_bag_label;
-        labels_point(i,j)=temp_point_label;
-        [x,p]=gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,N_b,Pt_mean,sigma,expect_SdB);
-        X(:,(i-1)*num_points+j)=x;
-        P(:,(i-1)*num_points+j)=p;
+        temp_bag_label                 = 1;
+        temp_point_label               = 0;
+        labels_bag(i,j)                = temp_bag_label;
+        labels_point(i,j)              = temp_point_label;
+        [x,p] = gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,parameters);
+        X(:,(i-1)*num_points+j)        = x;
+        P(:,(i-1)*num_points+j)        = p;
         bag_number((i-1)*num_points+j) = i;
     end    
     
 end
+
 %loop in negative bags
 for i=num_pbags+1:num_pbags+num_nbags
     %generate background points
     for j=1:num_points
-        temp_bag_label=0;
-        temp_point_label=0;
-        labels_bag(i,j)=temp_bag_label;
-        labels_point(i,j)=temp_point_label;
-        [x,p]=gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,N_b,Pt_mean,sigma,expect_SdB);
-        X(:,(i-1)*num_points+j)=x;
-        P(:,(i-1)*num_points+j)=p;
+        temp_bag_label                 = 0;
+        temp_point_label               = 0;
+        labels_bag(i,j)                = temp_bag_label;
+        labels_point(i,j)              = temp_point_label;
+        [x,p] = gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,parameters);
+        X(:,(i-1)*num_points+j)        = x;
+        P(:,(i-1)*num_points+j)        = p;
         bag_number((i-1)*num_points+j) = i;
     end    
-    
-end
-    
+end   
     
 end
 
