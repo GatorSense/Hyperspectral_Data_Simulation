@@ -1,4 +1,4 @@
-function [X,P,labels_bag,labels_point,bag_number] = gen_multi_tar_mixed_data(E_truth,parameters)
+function [X,P,labels_bag,labels_point,bag_number,data] = gen_multi_tar_mixed_data(E_truth,parameters)
 
 %This function generates synthetic data set following the definition of multiple instance learning problem
 
@@ -19,7 +19,16 @@ function [X,P,labels_bag,labels_point,bag_number] = gen_multi_tar_mixed_data(E_t
 %   labels_bag - bag level label per data point
 %   labels_point - instance level label per data point
 %   bag_number - bag number per data point
-
+%   data - Only provided as output if parameters.bagData = 1. Format 
+%          compatiable with MIACE and MTMIACE. Structure that contains two variables:
+%     dataBags: bagged data
+%         * a positive bag should have at least one positive instance in it
+%         * a negative bag should consist of all negative instances
+%     labels: labels for dataBags
+%         * the labels should be a row vector with labels corresponding to the 
+%         * parameters.posLabel and parameters.negLabel where a posLabel corresponds
+%         * to a positive bag and a negLabel corresponds to a negative bag.
+%         * The index of the label should match the index of the bag in dataBags
 
 % Author: Changzhe Jiao, Alina Zare
 % University of Missouri, Department of Electrical and Computer Engineering
@@ -114,7 +123,15 @@ for i=num_pbags+1:num_pbags+num_nbags
         P(:,(i-1)*num_points+j)        = p;
         bag_number((i-1)*num_points+j) = i;
     end    
-end   
+end
+
+if parameters.bagData
+    % bag the final data set
+    for i = 1:2*(parameters.num_nbags + parameters.num_pbags)
+        data.dataBags{i} = X(:,bag_number == i)';
+        data.labels(i) = unique(labels_bag(bag_number == i));
+    end
+end
     
 end
 
