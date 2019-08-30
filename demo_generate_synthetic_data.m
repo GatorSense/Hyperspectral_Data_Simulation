@@ -1,5 +1,4 @@
 function [X,P,labels_bag,labels_point,bag_number,dataBagged] = demo_generate_synthetic_data()
-
 % This function generates synthetic data following definition of multiple instance learning problem
 
 % REFERENCE :
@@ -31,8 +30,5 @@ load('E_truth')
 % Generate Single Target Synthetic Dataset
 parameters = setParameters();
 [X,P,labels_bag,labels_point,bag_number,dataBagged] = gen_multi_tar_mixed_data(E_truth, parameters);
-newShape = (parameters.num_pbags + parameters.num_nbags)*parameters.num_points;
-labels_bag = reshape(labels_bag',1,newShape);
-labels_point = reshape(labels_point',1,newShape);
 
 end

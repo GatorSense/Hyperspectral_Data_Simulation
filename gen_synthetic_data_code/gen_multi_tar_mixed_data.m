@@ -16,9 +16,9 @@ function [X,P,labels_bag,labels_point,bag_number,data] = gen_multi_tar_mixed_dat
 %Outputs:
 %   X - dataset in column vectors
 %   P - proportion set in column vectors
-%   labels_bag - bag level label per data point
-%   labels_point - instance level label per data point
-%   bag_number - bag number per data point
+%   labels_bag - bag level label in column vectors
+%   labels_point - instance level in column vectors
+%   bag_number - bag number per in column vectors
 %   data - Only provided as output if parameters.bagData = 1. Format 
 %          compatiable with MIACE and MTMIACE. Structure that contains two variables:
 %     dataBags: bagged data
@@ -86,26 +86,26 @@ for i=1:num_pbags
     
     % generate true positive points
     for j=1:n_tar
-        temp_bag_label                 = 1;
-        temp_point_label               = 1;
-        labels_bag(i,j)                = temp_bag_label;
-        labels_point(i,j)              = temp_point_label;
+        temp_bag_label                   = 1;
+        temp_point_label                 = 1;
         [x,p] = gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,parameters);
-        X(:,(i-1)*num_points+j)        = x;
-        P(:,(i-1)*num_points+j)        = p;
-        bag_number((i-1)*num_points+j) = i;
+        X(:,(i-1)*num_points+j)          = x;
+        P(:,(i-1)*num_points+j)          = p;
+        bag_number((i-1)*num_points+j)   = i;
+        labels_bag((i-1)*num_points+j)   = temp_bag_label;
+        labels_point((i-1)*num_points+j) = temp_point_label;
     end
     
     % generate false positive points
     for j=n_tar+1:num_points
         temp_bag_label                 = 1;
         temp_point_label               = 0;
-        labels_bag(i,j)                = temp_bag_label;
-        labels_point(i,j)              = temp_point_label;
         [x,p] = gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,parameters);
         X(:,(i-1)*num_points+j)        = x;
         P(:,(i-1)*num_points+j)        = p;
         bag_number((i-1)*num_points+j) = i;
+        labels_bag((i-1)*num_points+j)   = temp_bag_label;
+        labels_point((i-1)*num_points+j) = temp_point_label;
     end    
     
 end
@@ -116,18 +116,18 @@ for i=num_pbags+1:num_pbags+num_nbags
     for j=1:num_points
         temp_bag_label                 = 0;
         temp_point_label               = 0;
-        labels_bag(i,j)                = temp_bag_label;
-        labels_point(i,j)              = temp_point_label;
         [x,p] = gen_individual_LMM_point(E_t,E_minus,temp_bag_label,temp_point_label,parameters);
         X(:,(i-1)*num_points+j)        = x;
         P(:,(i-1)*num_points+j)        = p;
         bag_number((i-1)*num_points+j) = i;
+        labels_bag((i-1)*num_points+j)   = temp_bag_label;
+        labels_point((i-1)*num_points+j) = temp_point_label;
     end    
 end
 
 if parameters.bagData
     % bag the final data set
-    for i = 1:2*(parameters.num_nbags + parameters.num_pbags)
+    for i = 1:(parameters.num_nbags + parameters.num_pbags)
         data.dataBags{i} = X(:,bag_number == i)';
         data.labels(i) = unique(labels_bag(bag_number == i));
     end
