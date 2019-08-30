@@ -26,9 +26,12 @@ addpath('./gen_synthetic_data_code')
 addpath('./synthetic_data')
 
 load('E_truth')
+load('originalData')
 
 % Generate Single Target Synthetic Dataset
 parameters = setParameters();
 [X,P,labels_bag,labels_point,bag_number,dataBagged] = gen_multi_tar_mixed_data(E_truth, parameters);
 
+% Plot 
+plotSpectra(originalData, parameters)
 end

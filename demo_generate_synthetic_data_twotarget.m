@@ -27,11 +27,15 @@ addpath('./gen_synthetic_data_code')
 addpath('./synthetic_data')
 
 load('E_truth')
+load('originalData')
 
 % Generate Two Target Synthetic Dataset
 parameters = setParameters();
 parameters.E_target     = [1,2]; % index of target endmember
 parameters.E_minus      = 3:6;   % index of background endmembers
 [X,P,labels_bag,labels_point,bag_number,dataBagged] = gen_2tar_data(E_truth,parameters);
+
+% Plot 
+plotSpectra(originalData, parameters)
 
 end
