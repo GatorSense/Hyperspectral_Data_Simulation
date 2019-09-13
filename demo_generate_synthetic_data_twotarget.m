@@ -1,4 +1,5 @@
-function [X,P,labels_bag,labels_point,bag_number,dataBagged] = demo_generate_synthetic_data()
+function [X,P,labels_bag,labels_point,bag_number,dataBagged] = demo_generate_synthetic_data_twotarget()
+
 % This function generates synthetic data following definition of multiple instance learning problem
 
 % REFERENCE :
@@ -28,10 +29,13 @@ addpath('./synthetic_data')
 load('E_truth')
 load('originalData')
 
-% Generate Single Target Synthetic Dataset
+% Generate Two Target Synthetic Dataset
 parameters = setParameters();
-[X,P,labels_bag,labels_point,bag_number,dataBagged] = gen_multi_tar_mixed_data(E_truth, parameters);
+parameters.E_target     = [1,2]; % index of target endmember
+parameters.E_minus      = 3:6;   % index of background endmembers
+[X,P,labels_bag,labels_point,bag_number,dataBagged] = gen_2tar_data(E_truth,parameters);
 
 % Plot 
 plotSpectra(originalData, parameters)
+
 end

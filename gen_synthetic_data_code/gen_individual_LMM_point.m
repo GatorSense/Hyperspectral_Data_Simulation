@@ -1,10 +1,10 @@
-function [x,p]=gen_individual_LMM_point(E_t,E_minus,label_bag,label_point,N_b,Pt_mean,sigma,expect_SdB)
+function [x,p]=gen_individual_LMM_point(E_t,E_minus,label_bag,label_point,parameters)
 
 %This function generates individual synthetic data point following the linear mixing model
 
 % REFERENCE :
 % C. Jiao, A. Zare, 
-% Functions of Multiple Instances for Learning Target Signatures,? 
+% Functions of Multiple Instances for Learning Target Signatures, 
 % IEEE transactions on Geoscience and Remote Sensing, Vol. 53, No. 8, Aug. 2015, DOI: 10.1109/TGRS.2015.2406334
 %
 % SYNTAX : [x,p]=gen_individual_LMM_point(E_t,E_minus,label_bag,label_point,N_b,Pt_mean,sigma,expect_SdB)
@@ -60,8 +60,11 @@ function [x,p]=gen_individual_LMM_point(E_t,E_minus,label_bag,label_point,N_b,Pt
 % OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 % SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-
+% Setting up parameters 
+N_b = parameters.N_b;
+Pt_mean = parameters.Pt_mean;
+sigma = parameters.sigma;
+expect_SdB = parameters.expect_SdB;
 T=size(E_t,2);
 M=size(E_minus,2);
 
