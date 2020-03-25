@@ -3,8 +3,15 @@ function [] = plotSpectra(targets, parameters)
 % if parameters variable is provided it will plot the 1-2 targets selected
 % versus background
 
-spectra = table2array(targets(:,2:end));
-wavelength = table2array(targets(:,1));
+if istable(targets)
+    spectra = table2array(targets(:,2:end));
+    wavelength = table2array(targets(:,1));
+    labelnames = targets.Properties.VariableNames(2:end);
+else
+    spectra = targets;
+    load('wavelength.mat');
+    labelnames = {};
+end
 
 % Plot all targets
 numSamp = size(spectra,2);
@@ -16,7 +23,7 @@ end
 axis([0.4 2.5 0 0.7]);
 ylabel('Reflectance');
 xlabel('Wavelength (\mum)');
-legend(targets.Properties.VariableNames(2:end));
+legend(labelnames);
 title('True Spectra');
 hold off
 
